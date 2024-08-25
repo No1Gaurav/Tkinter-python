@@ -4,6 +4,7 @@
 
 import tkinter as tk
 import mysql.connector as p
+from tkinter import messagebox as ms
 
 
 
@@ -30,7 +31,7 @@ def MainWindow():
 def login():
 
 
-    root.destroy()
+    root.withdraw()
     rootl=tk.Tk()
     rootl.title("Login Page")
     wl = 600
@@ -105,13 +106,15 @@ def login():
         # rootl.destroy()
         # rootls=tk.Tk()
         # rootls.title("Login Successfull")
-        success_window=tk.Toplevel(rootl)
-        success_window.title("Login Successful !!!")
-        success_window.geometry("300x200")
-        la1=tk.Label(success_window , text="Login Successfull!!!" )
-        la1.pack(pady=20)
-        button_exit=tk.Button(success_window , text="Exit" , command=success_window.destroy)
-        button_exit.pack()
+        # success_window=tk.Toplevel(rootl)
+        # success_window.title("Login Successful !!!")
+        # success_window.geometry("300x200")
+        # la1=tk.Label(success_window , text="Login Successfull!!!" )
+        # la1.pack(pady=20)
+        # button_exit=tk.Button(success_window , text="Exit" , command=success_window.destroy)
+        # button_exit.pack()
+
+        ms1=ms.showinfo("Login" , "Login Successfull")
 
 
 
@@ -262,6 +265,7 @@ hs = root.winfo_screenheight()
 x = (ws/2) - (w/2)
 y = (hs/2) - (h/2)
 root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+root.config(background="#fff")
 
 root.resizable(False , False)
 
