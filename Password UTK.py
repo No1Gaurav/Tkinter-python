@@ -8,17 +8,17 @@ from tkinter import messagebox as ms
 
 
 
-
 #connecting mysql
-a=p.connect(host='localhost' , user= 'root' , password='123456' , database="password")
+a=p.connect(host='localhost' , user= 'root' , password='123456')
 b=a.cursor()
 b.execute("SHOW DATABASES LIKE %s", ('password',))
 result = b.fetchone()
 if result:
-    pass
+    b.execute("use password")
+    a.commit()
 else:
     # print(f"Database '{database_name}' does not exist.")
-     b.execute("create database %s",('password',))
+     b.execute("create database password;")
      b.execute("use password")
      b.execute("create table passwords(username varchar(20) , password varchar(20))")
      a.commit()
@@ -136,8 +136,10 @@ def login():
         user_name = en.get()
         b.execute("select * from passwords;")
         c=b.fetchall()
-        for i in c:
-            if (user_name == i[0] ):
+        print(c)
+        length_of_c=len(c)
+        for i in range(length_of_c):
+            if (user_name == c[i][0] ):
                 # print(user_name)
                 check_message()
                 button_bool_username=True
@@ -146,7 +148,7 @@ def login():
                 if p_word=="":
                     break
                 else:
-                    if (p_word == i[1]):
+                    if (p_word == c[i][1]):
                         # print(p_word)
                         check_message()
                         button_bool_password=True
@@ -159,11 +161,10 @@ def login():
                         message_pass()
                         #ms.showerror("Login Failed", "Incorrect username or password")
                         break
-            else:
-                button_bool_username=False
-                # print(user_name)
-                message_user()
-                break
+        else:
+            button_bool_username=False
+            # print(user_name)
+            message_user()
 
 
     def message_user():
@@ -229,6 +230,7 @@ def login():
         check(us,ps)
         if button_bool_username == True and button_bool_password == True:
             ms.showinfo("Login" , "Login Successfull")
+            rootl.destroy()
         else:
             ms.showerror("Login Failed", "Incorrect username or password")
             pass
@@ -283,7 +285,7 @@ def signup():
 
 
     # root.destroy()
-    roots=tk.Tk()
+    roots = tk.Toplevel()  # Changed from tk.Tk()
     roots.title("SignUp Page")
     ws = 600
     hs = 500
@@ -295,8 +297,8 @@ def signup():
     roots.resizable(False , False)
 
     listS=[]
-    iu1=tk.Label(roots , text="Invalid Username!!!!" , font=("Arial" , 14))
-    ip1=tk.Label(roots , text="Invalid Password!!!!" , font=("Arial" , 14))
+    iu1=tk.Label(roots , text="Username Exists!!!!" , font=("Arial" , 14))
+    ip1=tk.Label(roots , text="Password doesn't contain a special character!!!!" , font=("Arial" , 14))
     iup1=tk.Label(roots , text="Invalid Username or Password!!!!" , font=("Arial" , 14))
     icp1=tk.Label(roots , text="Password Don't match!!!!" , font=("Arial" , 14))
 
@@ -305,6 +307,13 @@ def signup():
         check_message1()
     
         user_name1 = en.get()
+        b.execute("select username from passwords;")
+        c=b.fetchall()
+        # print(c)
+        for i in c:
+            if i[0]==user_name1:
+                message_user1()
+                return 0
         if (user_name1 != '' ):
             # check_message()
             if listS:
@@ -321,7 +330,9 @@ def signup():
         check_message1()
         
         password1=ep.get()
-        if (password1 != ''):
+        if not any(char in password1 for char in '*@!#$%^&()+'):
+            message_pass1()
+        elif (password1 != ''):
             ep.tk_focusNext().focus()
             listS.append(password1)
         else:
@@ -362,7 +373,7 @@ def signup():
         iu1.place(x=200 , y=300)
     
     def message_pass1():
-        ip1.place(x=200 , y=300)
+        ip1.place(x=100 , y=300)
 
     def message_con_password():
         print(listS)
@@ -382,6 +393,8 @@ def signup():
 
         nonlocal listS
         valid_username(en)
+        if len(listS) == 0:  # Username already exists case
+            return
         valid_password(ep)
         valid_confirm_password(ecp)
         if len(listS)==2:
@@ -389,7 +402,10 @@ def signup():
             # "INSERT INTO your_table (column1, column2) VALUES (%s, %s)"
             b.execute(f1,listS)
             a.commit()
+            ms.showinfo("Success", "Account created successfully!")  # Add success message
             print('Record Inserted Successfully')
+            roots.destroy()  # Close signup window after successful registration
+            login()  # Open login window automatically
         else:
             print("Invalid Username or Password")
     
