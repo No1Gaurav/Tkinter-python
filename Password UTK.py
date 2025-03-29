@@ -3,11 +3,12 @@
 
 
 import tkinter as tk
-import mysql.connector as p
+# import mysql.connector as p  # Old MySQL connection
+import sqlite3 as sql  # New SQLite connection
 from tkinter import messagebox as ms
 
-
-
+# Old MySQL connection code
+'''
 #connecting mysql
 a=p.connect(host='localhost' , user= 'root' , password='123456')
 b=a.cursor()
@@ -22,8 +23,21 @@ else:
      b.execute("use password")
      b.execute("create table passwords(username varchar(20) , password varchar(20))")
      a.commit()
+'''
 
+# New SQLite connection code
+def init_db():
+    conn = sql.connect('password.db')  # Creates/connects to a local file
+    c = conn.cursor()
+    # Create table if it doesn't exist
+    c.execute('''CREATE TABLE IF NOT EXISTS passwords
+                 (username TEXT PRIMARY KEY, password TEXT)''')
+    conn.commit()
+    return conn, c
 
+# Initialize database connection
+a = init_db()[0]
+b = init_db()[1]
 
 def MainWindow():
     l3=tk.Label(root , text="HELLO!! Welcome to my first Project" , font=("Arial" , 20))
@@ -134,6 +148,9 @@ def login():
         nonlocal button_bool_username
         nonlocal button_bool_password
         user_name = en.get()
+        
+        # Old MySQL code
+        '''
         b.execute("select * from passwords;")
         c=b.fetchall()
         print(c)
@@ -163,7 +180,30 @@ def login():
                         break
         else:
             button_bool_username=False
-            # print(user_name)
+            message_user()
+        '''
+
+        # New SQLite code - More efficient direct query
+        b.execute("SELECT password FROM passwords WHERE username=?", (user_name,))
+        result = b.fetchone()
+        
+        if result:  # Username exists
+            button_bool_username = True
+            check_message()
+            en.tk_focusNext().focus()
+            p_word = ep.get()
+            
+            if p_word == "":
+                return
+            elif p_word == result[0]:  # Password matches
+                check_message()
+                button_bool_password = True
+                ep.tk_focusNext().focus()
+            else:  # Wrong password
+                button_bool_password = False
+                message_pass()
+        else:  # Username doesn't exist
+            button_bool_username = False
             message_user()
 
 
@@ -398,8 +438,11 @@ def signup():
         valid_password(ep)
         valid_confirm_password(ecp)
         if len(listS)==2:
-            f1='insert into passwords values(%s,%s)'
-            # "INSERT INTO your_table (column1, column2) VALUES (%s, %s)"
+            # Old MySQL syntax
+            #f1='insert into passwords values(%s,%s)'
+            
+            # New SQLite syntax
+            f1='INSERT INTO passwords VALUES (?, ?)'
             b.execute(f1,listS)
             a.commit()
             ms.showinfo("Success", "Account created successfully!")  # Add success message
