@@ -7,15 +7,16 @@ import sys
 import os
 import traceback
 
-# def init_db():
-#     conn = sql.connect('password.db')
-#     c = conn.cursor()
-#     c.execute('''CREATE TABLE IF NOT EXISTS passwords
-#                  (username TEXT PRIMARY KEY, password TEXT)''')
-#     conn.commit()
-#     return conn, c
+'''
+ def init_db():
+     conn = sql.connect('password.db')
+     c = conn.cursor()
+     c.execute("CREATE TABLE IF NOT EXISTS passwords
+                  (username TEXT PRIMARY KEY, password TEXT)")
+     conn.commit()
+     return conn, c
+'''
 
-# Add error logging
 def log_error(error):
     with open('error_log.txt', 'a') as f:
         f.write(f"Error: {str(error)}\n")

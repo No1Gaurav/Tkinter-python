@@ -68,8 +68,22 @@ python src/sqlite_app.py
 python src/mysql_app.py
 
 ```
+---
 
+## 👨‍💻 Author Note
+
+> This was my **first ever project**. Some basic features may be missing, which I will be improving in future updates.  
+> I have taken help from **Python Documentation**, **YouTube**, **ChatGPT** and **Other websites**.  
+
+---
+
+## 📄 License
+
+**Open-source** – Free to use, modify, and distribute.
+
+---
 ## 🙋‍♂️ Author
 
  #### Gaurav
  #### GitHub: @No1Gaurav
+
