@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import font
+from PIL import Image , ImageTk
 import sqlite3 as sql
 from tkinter import messagebox as ms
 import sys
@@ -39,14 +41,17 @@ try:
     b = init_db()[1]
 
     def MainWindow():
-        l3=tk.Label(root , text="HELLO!! Welcome to my first Project" , font=("Arial" , 20))
+        custom_font = font.Font(family="Helvetica", size=20, weight="bold", slant="italic")
+        custom_font2 = font.Font(family="Helvetica", size=10, weight="bold", slant="italic")
+
+        l3=tk.Label(root , text="HELLO!! Welcome to my first Project" , font=custom_font)
         l3.place(x=80 , y=100)
-        l4=tk.Label(root , text="Choose One" , font=("Arial" , 20))
+        l4=tk.Label(root , text="Choose One" , font=custom_font)
         l4.place(x=210 , y=160)
         
-        loginbutton=tk.Button(root , text="Login" , border=10 , command=login , background="green" )
+        loginbutton=tk.Button(root , text="Login" , padx= 10 , pady = 10 , borderwidth=5 , relief= "raised" , command=login ,fg="#aa5151" , font = custom_font2)
         loginbutton.place(x=210 , y=250)
-        signupbutton=tk.Button(root , text="Signup", border=10 , command=signup)
+        signupbutton=tk.Button(root , text="Signup", padx=10 , pady=10 , borderwidth=5 , relief= "raised" , fg="#aa5151", command=signup , font=custom_font2)
         signupbutton.place(x=300,y=250)
 
     def login():
@@ -309,6 +314,12 @@ try:
     x = (ws/2) - (w/2)
     y = (hs/2) - (h/2)
     root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+    
+    bg_image = Image.open("D:\Gaurav\Tkinter-python\g_image.png")  # Replace with your image path
+    bg_photo = ImageTk.PhotoImage(bg_image)
+    bg_label = tk.Label(root, image=bg_photo)
+    bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+    
     root.config(background="#fff")
     root.resizable(False , False)
 
