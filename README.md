@@ -35,6 +35,8 @@ A clean and modern desktop application that implements a simple user authenticat
 
 ### 🔧 Prerequisites
 
+- If you download .exe and run them then you don't have to download anything else 
+- If your system does not have mysql or you don't want to use mysql or make a database in your system then use the `Final_password_UTK_sqlite.exe`
 - Python 3 installed on your system
 - MySQL server running (locally or remotely)
 - Create a MySQL database and table:
