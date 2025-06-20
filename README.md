@@ -1,16 +1,20 @@
-# Tkinter Login & Signup System
+# 🔐 Password Manager (Tkinter GUI)
 
 A clean and modern desktop application that implements a simple user authentication system with login and signup functionality. User credentials are securely stored in a database, and the system includes basic error handling and user validation.
+
+This application allows you to securely store and manage your passwords using either SQLite or MySQL as the backend database.
 
 ---
 
 ## 💡 Features
 
-- 🔐 Login and signup pages with form validation
-- 💾 MySQL database integration for secure user data storage
-- 🧪 Basic error handling and duplicate user checks
-- 🖥️ Intuitive, user-friendly Tkinter interface
-- 📦 Organized, modular codebase for easy expansion
+-  Login and signup pages with form validation
+-  Save, view, and manage your credentials
+-  Two database options: SQLite (no setup needed) or MySQL
+-  Executable .exe files for quick launch without installation
+-  Basic error handling and duplicate user checks
+-  Intuitive, user-friendly Tkinter interface
+-  Organized, modular codebase for easy expansion
 
 ---
 
@@ -33,21 +37,39 @@ A clean and modern desktop application that implements a simple user authenticat
 
 ## 🚀 Getting Started
 
-### 🔧 Prerequisites
+### Option 1: Run Executable (Recommended for Non-Developers)
 
-- If you download .exe and run them then you don't have to download anything else 
-- If your system does not have mysql or you don't want to use mysql or make a database in your system then use the `Final_password_UTK_sqlite.exe`
-- Python 3 installed on your system
-- MySQL server running (locally or remotely)
-- Create a MySQL database and table:
-  
-```sql
-CREATE DATABASE user_auth;
-USE user_auth;
+No installation needed—just download and run the appropriate .exe file:
 
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL
-);
+- Final_password_UTK_sqlite.exe – Uses SQLite (no setup required)
+- Password_UTK_mysql.exe – Requires MySQL installed and configured
 
+💡 Use the SQLite version if you don’t have MySQL or prefer a simpler setup. 
+
+### Option 2: Run Python Script (For Developers)
+
+#### 🔧 Prerequisites
+
+
+- Python 3.7+
+- MySQL server (Only for MYSQL version)
+
+#### 📥 Installation
+
+```bash
+git clone https://github.com/No1Gaurav/Tkinter-python.git
+cd Tkinter-python
+```
+```bash
+# For SQLite
+python src/sqlite_app.py
+
+# For MySQL
+python src/mysql_app.py
+
+```
+
+## 🙋‍♂️ Author
+
+ #### Gaurav
+ #### GitHub: @No1Gaurav
